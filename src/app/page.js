@@ -2,10 +2,8 @@
 import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 
 export default function Home() {
-  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false)
   const [image, setImage] = useState(null);
   const [images, setImages] = useState([]);
@@ -32,6 +30,7 @@ export default function Home() {
 
   async function onSubmitHandler(e){
     e.preventDefault();
+
     try {      
       if(!image){
         return
@@ -40,7 +39,8 @@ export default function Home() {
       const formData = new FormData();
       formData.append('image', image)
 
-      const response = await axios.post('/api/upload', formData);
+
+       await axios.post('/api/upload', formData);
       await fetchAllImages();
     } catch (error) {
       console.log(error)

@@ -17,22 +17,22 @@ import { UploadImage } from "../../../utils/upload-image";
 
 ConnectDB();
 
-export async function GET(req: NextRequest){
+export async function GET(req){
     const Images = await ImageGallaryModel.find({});
 
-    return NextResponse.json({images: Images, total: Images.length}, {status: 200})
+    return Response.json({images: Images, total: Images.length}, {status: 200})
 }
 
-export async function POST(req: NextRequest){
+export async function POST(req){
     const formData = await req.formData();
 
-    const image = formData.get('image') as unknown as File;
-    const data:any = await UploadImage(image, 'nextjs-imagegallary');
+    const image = formData.get('image');
+    const data = await UploadImage(image, 'nextjs-imagegallary');
 
     await ImageGallaryModel.create({
         image_url: data?.secure_url,
         public_id: data?.public_id
     })
 
-    return NextResponse.json({msg: data}, {status: 200});
+    return Response.json({msg: data}, {status: 200});
 }
